@@ -523,7 +523,7 @@ namespace com.junfine.simpleframework {
             LuaScriptMgr mgr = ioo.gameManager.uluaMgr;
             int oldTop = func.BeginPCall();
             LuaDLL.lua_pushlstring(mgr.lua.L, buffer, buffer.Length);
-            if (func.PCall(oldTop, 1)) func.EndPCall();
+            if (func.PCall(oldTop, 1)) func.EndPCall(oldTop);
         }
     }
 }

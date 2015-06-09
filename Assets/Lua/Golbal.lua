@@ -1,4 +1,4 @@
-luanet.load_assembly("UnityEngine")
+﻿luanet.load_assembly("UnityEngine")
 
 object			= System.Object
 Type			= System.Type
