@@ -389,9 +389,15 @@ public class LuaScriptMgr
 
     void OnBundleLoaded()
     {
+<<<<<<< .mine
 #if UNITY_EDITOR && !LUA_ZIP
         //DoFile("strict.lua");
 #endif
+=======
+#if UNITY_EDITOR && !LUA_ZIP
+        DoFile("strict.lua");
+#endif
+>>>>>>> .theirs
         DoFile("Golbal.lua");
         unpackVec3 = GetLuaReference("Vector3.Get");
         unpackVec2 = GetLuaReference("Vector2.Get");
