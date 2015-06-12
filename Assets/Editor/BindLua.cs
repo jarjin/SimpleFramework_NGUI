@@ -361,7 +361,7 @@ public static class LuaBinding
     }
 
     [MenuItem("Lua/Clear LuaBinder File + Wrap Files", false, 13)]
-    static void ClearLuaBinder()
+    public static void ClearLuaBinder()
     {
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("using System;");
