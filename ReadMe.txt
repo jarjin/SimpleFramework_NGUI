@@ -4,7 +4,8 @@
 支持平台：PC/MAC/Android(armv7-a + Intel x86)/iOS(armv7 + arm64)/
 	  WP8(SimpleFramework_WP_v0.1.1 (nlua))/
 
-UGUI版本：SimpleFramework_UGUI_v0.2.8
+//-------------2015-06-14-------------
+(1)不同平台需要统一文件编码，添加LUA UTF-8编码菜单。
 
 //-------------2015-06-13-------------
 (1)感谢夜莺提供的新手引导面板代码。
