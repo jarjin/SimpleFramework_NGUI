@@ -12,7 +12,7 @@ namespace com.junfine.simpleframework {
         public static bool UseLpeg = true;                          //lpeg
         public static bool UsePbLua = true;                         //Protobuff-lua-gen
         public static bool UseCJson = true;                         //CJson
-        public static bool UseSQLite = true;                        //SQLite
+        public static bool LuaEncode = false;                        //使用LUA编码
 
         public static int TimerInterval = 1;
         public static int GameFrameRate = 30;                       //游戏帧频
