@@ -12,6 +12,7 @@ namespace com.junfine.simpleframework.manager {
     public class GameManager : BaseLua {
         public LuaScriptMgr uluaMgr;
         private string message;
+        private bool canLuaUpdate = false;
         private ResourceManager ResManager;
 
         /// <summary>
@@ -217,6 +218,7 @@ namespace com.junfine.simpleframework.manager {
                 Debug.LogWarning("LoadLua---->>>>" + name + ".lua");
             }
             //------------------------------------------------------------
+            canLuaUpdate = true;
             CallMethod("OnInitOK");   //初始化完成
         }
 
@@ -226,6 +228,24 @@ namespace com.junfine.simpleframework.manager {
 
         void OnGUI() {
             GUI.Label(new Rect(10, 120, 960, 50), message);
+        }
+
+        void Update() {
+            if (uluaMgr != null && canLuaUpdate) {
+                uluaMgr.Update();
+            }
+        }
+
+        void LateUpdate() {
+            if (uluaMgr != null && canLuaUpdate) {
+                uluaMgr.LateUpate();
+            }
+        }
+
+        void FixedUpdate() {
+            if (uluaMgr != null && canLuaUpdate) {
+                uluaMgr.FixedUpdate();
+            }
         }
 
         /// <summary>
@@ -239,6 +259,11 @@ namespace com.junfine.simpleframework.manager {
         /// 析构函数
         /// </summary>
         void OnDestroy() {
+            ioo.networkManager.Unload();
+            if (uluaMgr != null) {
+                uluaMgr.Destroy();
+                uluaMgr = null;
+            }
             Debug.Log("~GameManager was destroyed");
         }
     }
