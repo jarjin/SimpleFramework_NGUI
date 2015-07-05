@@ -32,7 +32,7 @@ end
 --异常断线--
 function Network.OnException() 
     islogging = false; 
-    io.networkManager:SendConnect();
+    NetManager:SendConnect();
    	error("OnException------->>>>");
 end
 

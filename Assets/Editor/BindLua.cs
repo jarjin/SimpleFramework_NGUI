@@ -11,8 +11,9 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using UnityEngine.Rendering;
-using com.junfine.simpleframework;
-using com.junfine.simpleframework.manager;
+using SimpleFramework;
+using SimpleFramework.Manager;
+
 
 [InitializeOnLoad]
 public static class LuaBinding
@@ -175,9 +176,8 @@ public static class LuaBinding
         
         //custom    
 		
-		_GT(typeof(ioo)),
 		_GT(typeof(Util)),
-		_GT(typeof(Const)),
+		_GT(typeof(AppConst)),
 		_GT(typeof(ByteBuffer)),
         _GT(typeof(NetworkManager)),
         _GT(typeof(ResourceManager)),
@@ -185,12 +185,15 @@ public static class LuaBinding
 		_GT(typeof(UIEventListener)),
         _GT(typeof(TimerManager)),
         _GT(typeof(LuaHelper)),
-        _GT(typeof(BaseLua)), 
+        _GT(typeof(LuaCtrlBase)), 
         _GT(typeof(UIPanel)),
         _GT(typeof(UILabel)),
         _GT(typeof(UIGrid)),
-        _GT(typeof(UIWrapGrid)),
+        _GT(typeof(WrapGrid)),
         _GT(typeof(LuaEnumType)),
+        _GT(typeof(UIWidgetContainer)),
+        _GT(typeof(UIWidget)),
+        _GT(typeof(UIRect)),
         _GT(typeof(Debugger)),
         
         //unity                        

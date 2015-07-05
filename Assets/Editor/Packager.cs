@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using com.junfine.simpleframework;
+using SimpleFramework;
 
 public class Packager {
     public static string platform = string.Empty;
@@ -126,7 +126,7 @@ public class Packager {
             if (File.Exists(newpath)) {
                 File.Delete(newpath);
             }
-            if (Const.LuaEncode) {
+            if (AppConst.LuaEncode) {
                 UpdateProgress(n++, files.Count, newpath);
                 EncodeLuaFile(f, newpath, isWin);
             } else {

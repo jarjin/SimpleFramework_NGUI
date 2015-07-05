@@ -12,7 +12,7 @@ local gameObject;
 --启动事件--
 function PromptPanel.Start()
 	panel = this.transform:GetComponent('UIPanel');
-	prompt = this.transform:GetComponent('BaseLua');
+	prompt = this.transform:GetComponent('LuaCtrlBase');
 	warn("Start--->>gameObject:>>"..this.gameObject.name.." transform:>"..this.transform.name);
 
 	this.InitPanel();	--初始化面板--
@@ -37,7 +37,7 @@ function PromptPanel.InitPanel()
 	local grid = parent:GetComponent('UIGrid');
 	grid:Reposition();
 	grid.repositionNow = true;
-	parent:GetComponent('UIWrapGrid'):InitGrid();
+	parent:GetComponent('WrapGrid'):InitGrid();
 end
 
 --单击事件--
@@ -46,6 +46,6 @@ function PromptPanel.OnClick(go)
     buffer:WriteShort(Login);
     buffer:WriteString("ffff我的ffffQ靈uuu");
     buffer:WriteInt(200);
-    ioo.networkManager:SendMessage(buffer);
+    NetManager:SendMessage(buffer);
 	warn("OnClick---->>>"..go.name);
 end

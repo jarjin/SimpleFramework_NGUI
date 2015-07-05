@@ -5,9 +5,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Collections;
 using System.Collections.Generic;
-using com.junfine.simpleframework.manager;
+using SimpleFramework.Manager;
 
-namespace com.junfine.simpleframework {
+namespace SimpleFramework {
     public enum DisType {
         Exception,
         Disconnect,
@@ -44,7 +44,7 @@ namespace com.junfine.simpleframework {
                 KeyValuePair<NetActionType, ByteBuffer> _event = _events.Dequeue();
                 switch (_event.Key) {
                     case NetActionType.Connect:
-                    ConnectServer(Const.SocketAddress, Const.SocketPort);
+                    ConnectServer(AppConst.SocketAddress, AppConst.SocketPort);
                     break;
                     case NetActionType.Message:
                     SessionSend(_event.Value.ToBytes());
