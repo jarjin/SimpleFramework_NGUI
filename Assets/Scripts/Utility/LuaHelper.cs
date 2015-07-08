@@ -1,9 +1,4 @@
-﻿/*************************************************
-author：ricky pu
-data：2014.4.12
-email:32145628@qq.com
-**********************************************/
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Reflection;
 using LuaInterface;

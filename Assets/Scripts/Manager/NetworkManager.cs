@@ -6,14 +6,22 @@ using LuaInterface;
 
 namespace SimpleFramework.Manager {
     public class NetworkManager : BehaviourBase {
-        private static Queue<KeyValuePair<int, ByteBuffer>> sEvents = new Queue<KeyValuePair<int, ByteBuffer>>();
+        private SocketProxy socket;
+        static Queue<KeyValuePair<int, ByteBuffer>> sEvents = new Queue<KeyValuePair<int, ByteBuffer>>();
+
+        SocketProxy SocketClient {
+            get { 
+                if (socket == null)
+                    socket = facade.RetrieveProxy(SocketProxy.NAME) as SocketProxy;
+                return socket;                    
+            }
+        }
 
         void Awake() {
             Init();
         }
 
         void Init() {
-            Util.Add<SocketClient>(gameObject);
         }
 
         public void OnInit() {
@@ -36,13 +44,14 @@ namespace SimpleFramework.Manager {
             sEvents.Enqueue(new KeyValuePair<int, ByteBuffer>(_event, data));
         }
 
+        /// <summary>
+        /// 交给Command，这里不想关心发给谁。
+        /// </summary>
         void Update() {
             if (sEvents.Count > 0) {
                 while (sEvents.Count > 0) {
                     KeyValuePair<int, ByteBuffer> _event = sEvents.Dequeue();
-                    switch (_event.Key) {
-                        default: CallMethod("OnSocket", _event.Key, _event.Value); break;
-                    }
+                    facade.SendNotification(NotiConst.DISPATCH_MESSAGE, _event);
                 }
             }
         }

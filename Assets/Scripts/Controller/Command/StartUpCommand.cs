@@ -21,11 +21,11 @@ public class StartUpCommand : MacroCommand {
             EditorApplication.isPlaying = false;
             return;
         }
-        //BootstrapCommands
-        AddSubCommand(typeof(BootstrapCommands));
-
         //BootstrapModels
         AddSubCommand(typeof(BootstrapModels));
+
+        //BootstrapCommands
+        AddSubCommand(typeof(BootstrapCommands));
 
         //BootstrapViewMediators
         AddSubCommand(typeof(BootstrapViewMediators));

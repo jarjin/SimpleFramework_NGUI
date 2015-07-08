@@ -15,6 +15,9 @@ public class BootstrapCommands : SimpleCommand {
     /// </summary>
     /// <param name="notification"></param>
     public override void Execute(INotification notification) {
+        //-----------------关联命令-----------------------
+        Facade.RegisterCommand(NotiConst.DISPATCH_MESSAGE, typeof(SocketCommand));
+
         //-----------------初始化管理器-----------------------
         Facade.AddManager(ManagerName.Lua, new LuaScriptMgr());
 
