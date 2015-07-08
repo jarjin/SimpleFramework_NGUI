@@ -14,7 +14,7 @@ function MessagePanel.Start()
 	local panel = this.gameObject:GetComponent('UIPanel');
 	panel.depth = 10;	--设置纵深--
 
-	message = this.gameObject:GetComponent('LuaCtrlBase');
+	message = this.gameObject:GetComponent('LuaBehaviour');
 	message:AddClick('Button', this.OnClick);
 end
 

@@ -12,7 +12,7 @@ using UnityEditor;
 #endif
 
 namespace SimpleFramework.Manager {
-    public class GameManager : LuaCtrlBase {
+    public class GameManager : LuaBehaviour {
         private string message;
 
         /// <summary>

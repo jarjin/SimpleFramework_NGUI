@@ -44,7 +44,7 @@ namespace SimpleFramework.Manager {
             go.transform.localPosition = Vector3.zero;
 
             yield return new WaitForEndOfFrame();
-            go.AddComponent<LuaCtrlBase>().OnInit(bundle);
+            go.AddComponent<LuaBehaviour>().OnInit(bundle);
 
             Debug.Log("StartCreatePanel------>>>>" + name);
         }

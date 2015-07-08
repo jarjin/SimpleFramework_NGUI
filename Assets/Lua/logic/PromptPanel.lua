@@ -12,7 +12,7 @@ local gameObject;
 --启动事件--
 function PromptPanel.Start()
 	panel = this.transform:GetComponent('UIPanel');
-	prompt = this.transform:GetComponent('LuaCtrlBase');
+	prompt = this.transform:GetComponent('LuaBehaviour');
 	warn("Start--->>gameObject:>>"..this.gameObject.name.." transform:>"..this.transform.name);
 
 	this.InitPanel();	--初始化面板--

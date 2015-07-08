@@ -185,7 +185,7 @@ public static class LuaBinding
 		_GT(typeof(UIEventListener)),
         _GT(typeof(TimerManager)),
         _GT(typeof(LuaHelper)),
-        _GT(typeof(LuaCtrlBase)), 
+        _GT(typeof(LuaBehaviour)), 
         _GT(typeof(UIPanel)),
         _GT(typeof(UILabel)),
         _GT(typeof(UIGrid)),
@@ -195,6 +195,7 @@ public static class LuaBinding
         _GT(typeof(UIWidget)),
         _GT(typeof(UIRect)),
         _GT(typeof(Debugger)),
+        _GT(typeof(TweenAlpha.Style)),
         
         //unity                        
         _GT(typeof(Component)),
