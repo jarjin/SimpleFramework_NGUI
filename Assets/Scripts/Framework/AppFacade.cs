@@ -22,11 +22,6 @@ public class AppFacade : Facade
         }
     }
 
-    public void StartUp()
-    {
-        SendNotification(FacadeConst.START_UP);
-    }
-
     public void RegisterMultiCommand(SimpleCommand commandClassRef, params string[] notificationName)
     {
         int count = notificationName.Length;
@@ -57,8 +52,15 @@ public class AppFacade : Facade
     override protected void InitializeController()
     {
         base.InitializeController();
-        RegisterCommand(FacadeConst.START_UP, typeof(StartUpCommand));
-        RegisterMultiCommand(new ChatCommand(), FacadeConst.SEND_INFO, FacadeConst.SEND_PUBLIC_INFO);
+        RegisterCommand(NotiConst.START_UP, typeof(StartUpCommand));
+    }
+
+    /// <summary>
+    /// 启动框架
+    /// </summary>
+    public void StartUp() {
+        SendNotification(NotiConst.START_UP);
+        RemoveMultiCommand(NotiConst.START_UP);
     }
 }
 

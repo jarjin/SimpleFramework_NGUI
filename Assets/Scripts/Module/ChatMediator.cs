@@ -19,8 +19,8 @@ public class ChatMediator : Mediator
     {
         return new List<string>()
         { 
-            FacadeConst.RETURN_SEND_INFO,
-            FacadeConst.RETURN_PUBLIC_INFO,
+            NotiConst.RETURN_SEND_INFO,
+            NotiConst.RETURN_PUBLIC_INFO,
         };
     }
 
@@ -30,11 +30,11 @@ public class ChatMediator : Mediator
         object body = notification.Body;
         switch (name)
         {
-            case FacadeConst.RETURN_SEND_INFO:
+            case NotiConst.RETURN_SEND_INFO:
                 Debug.Log("Mediator接收来自Proxy的服务端返回" + body.ToString());
                 getView().returnServerHander(body.ToString());
             break;
-            case FacadeConst.RETURN_PUBLIC_INFO:
+            case NotiConst.RETURN_PUBLIC_INFO:
                 getView().returnPrivateMsg(body);
             break;
         }

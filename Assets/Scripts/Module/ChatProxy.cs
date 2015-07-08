@@ -28,6 +28,6 @@ public class ChatProxy : Proxy
     public void returnSendMsg(string str)
     {
         Debug.Log("Proxy发送服务端返回信息：" + str);
-        SendNotification(FacadeConst.RETURN_SEND_INFO, str);
+        SendNotification(NotiConst.RETURN_SEND_INFO, str);
     }
 }

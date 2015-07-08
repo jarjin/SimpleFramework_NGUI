@@ -23,7 +23,7 @@ public class ChatWindow : MonoBehaviour
                 mInput.value = "";
                 mInput.isSelected = false;
                 Debug.Log("UI发送聊天信息：" + text);
-                AppFacade.Instance.SendNotification(FacadeConst.SEND_INFO, text);
+                AppFacade.Instance.SendNotification(NotiConst.SEND_INFO, text);
             }
         }
     }

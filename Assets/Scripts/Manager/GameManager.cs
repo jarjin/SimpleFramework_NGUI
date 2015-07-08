@@ -33,6 +33,8 @@ namespace SimpleFramework.Manager {
             ZipConstants.DefaultCodePage = 65001;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             Application.targetFrameRate = AppConst.GameFrameRate;
+
+            //facade.SendNotification("");
         }
 
         /// <summary>
