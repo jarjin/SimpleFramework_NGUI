@@ -129,9 +129,9 @@ namespace SimpleFramework.Manager {
             string url = string.Empty;
 #if UNITY_5 
         if (Application.platform == RuntimePlatform.IPhonePlayer) {
-            url = Const.WebUrl + "/ios/";
+            url = AppConst.WebUrl + "/ios/";
         } else {
-            url = Const.WebUrl + "android/5x/";
+            url = AppConst.WebUrl + "android/5x/";
         }
 #else
             if (Application.platform == RuntimePlatform.IPhonePlayer) {

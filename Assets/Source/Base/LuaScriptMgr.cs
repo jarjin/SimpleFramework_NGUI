@@ -413,7 +413,7 @@ public class LuaScriptMgr
 //#if UNITY_EDITOR && !LUA_ZIP
 //        DoFile("System.strict");
 //#endif
-        DoFile("System.Global.lua");
+        DoFile("System.Global");
         InitLayers(lua.L);
 
         unpackVec3 = GetLuaReference("Vector3.Get");
