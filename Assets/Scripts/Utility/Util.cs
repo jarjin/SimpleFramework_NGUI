@@ -485,8 +485,10 @@ namespace SimpleFramework {
             string path = AppConst.DebugMode ? Application.dataPath + "/" : DataPath;
             string lowerName = name.ToLower();
             if (lowerName.EndsWith(".lua")) {
-                return path + "lua/" + name;
+                int index = name.LastIndexOf('.');
+                name = name.Substring(0, index);
             }
+            name = name.Replace('.', '/');
             return path + "lua/" + name + ".lua";
         }
 

@@ -9,17 +9,18 @@ namespace SimpleFramework {
         protected static bool initialize = false;
 
         private string data = null;
-        private Transform trans = null;
         private AssetBundle bundle = null;
         private List<LuaFunction> buttons = new List<LuaFunction>();
 
+        protected void Awake() {
+            CallMethod("Awake", gameObject);
+        }
 
         protected void Start() {
-            trans = transform;
             if (LuaManager != null && initialize) {
                 LuaState l = LuaManager.lua;
-                l[trans.name + ".transform"] = transform;
-                l[trans.name + ".gameObject"] = gameObject;
+                l[name + ".transform"] = transform;
+                l[name + ".gameObject"] = gameObject;
             }
             CallMethod("Start");
         }
@@ -53,10 +54,8 @@ namespace SimpleFramework {
         /// <summary>
         /// 添加单击事件
         /// </summary>
-        public void AddClick(string button, LuaFunction luafunc) {
-            Transform to = trans.Find(button);
-            if (to == null) return;
-            GameObject go = to.gameObject;
+        public void AddClick(GameObject go, LuaFunction luafunc) {
+            if (go == null) return;
             UIEventListener.Get(go).onClick = delegate(GameObject o) {
                 luafunc.Call(go);
                 buttons.Add(luafunc);

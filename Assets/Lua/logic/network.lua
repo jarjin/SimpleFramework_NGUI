@@ -45,7 +45,11 @@ end
 --当登录时--
 function Network.OnLogin(buffer) 
     warn('OnLogin----------->>>');
-    createPanel("Message"); --Lua里创建面板
+    --createPanel("Message"); --Lua里创建面板
+    local ctrl = CtrlManager.GetCtrl(CtrlName.Message);
+    if ctrl ~= nil then
+        ctrl:Awake();
+    end
 end
 
 --卸载网络监听--

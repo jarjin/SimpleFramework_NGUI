@@ -1,28 +1,41 @@
-require "common/define"
-require "common/functions"
+require "Common/define"
 
-PromptPanel = {};
-local this = PromptPanel;
+PromptCtrl = {};
+local this = PromptCtrl;
 
 local panel;
 local prompt;
 local transform;
 local gameObject;
 
+--构建函数--
+function PromptCtrl.New()
+	warn("PromptCtrl.New--->>");
+	return this;
+end
+
+function PromptCtrl.Awake()
+	warn("PromptCtrl.Awake--->>");
+	PanelManager:CreatePanel('Prompt', this.OnCreate);
+end
+
 --启动事件--
-function PromptPanel.Start()
-	panel = this.transform:GetComponent('UIPanel');
-	prompt = this.transform:GetComponent('LuaBehaviour');
-	warn("Start--->>gameObject:>>"..this.gameObject.name.." transform:>"..this.transform.name);
+function PromptCtrl.OnCreate(obj)
+	gameObject = obj;
+	transform = obj.transform;
+
+	panel = transform:GetComponent('UIPanel');
+	prompt = transform:GetComponent('LuaBehaviour');
+	warn("Start lua--->>"..gameObject.name);
 
 	this.InitPanel();	--初始化面板--
-	prompt:AddClick('Open', this.OnClick);
+	prompt:AddClick(PromptPanel.btnOpen, this.OnClick);
 end
 
 --初始化面板--
-function PromptPanel.InitPanel()
+function PromptCtrl.InitPanel()
 	panel.depth = 1;	--设置纵深--
-	local parent = this.transform:Find('ScrollView/Grid');
+	local parent = PromptPanel.gridParent;
 	local itemPrefab = prompt:GetGameObject('PromptItem');
 	for i = 1, 100 do
 		local go = newobject(itemPrefab);
@@ -41,11 +54,16 @@ function PromptPanel.InitPanel()
 end
 
 --单击事件--
-function PromptPanel.OnClick(go)
+function PromptCtrl.OnClick(go)
     local buffer = ByteBuffer.New();
     buffer:WriteShort(Login);
     buffer:WriteString("ffff我的ffffQ靈uuu");
     buffer:WriteInt(200);
     NetManager:SendMessage(buffer);
 	warn("OnClick---->>>"..go.name);
+end
+
+--关闭事件--
+function PromptCtrl.Close()
+	PanelManager:ClosePanel(CtrlName.Prompt);
 end

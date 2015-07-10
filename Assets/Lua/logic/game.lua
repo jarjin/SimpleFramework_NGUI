@@ -1,13 +1,15 @@
-require "pblua/login_pb"
-require "pbc/protobuf"
+require "3rd/pblua/login_pb"
+require "3rd/pbc/protobuf"
 
 local lpeg = require "lpeg"
 
 local json = require "cjson"
-local util = require "cjson.util"
+local util = require "3rd/cjson.util"
 
-require "logic/luaclass"
-require "common/functions"
+require "Logic/luaclass"
+require "Logic/CtrlManager"
+require "Common/functions"
+require "Controller/PromptCtrl"
 
 --管理器--
 GameManager = {};
@@ -32,9 +34,6 @@ end
 
 --初始化完成，发送链接服务器信息--
 function GameManager.OnInitOK()
-	warn('OnInitOK--->>>');
-	createPanel("Prompt");
-
     AppConst.SocketPort = 2012;
     AppConst.SocketAddress = "127.0.0.1";
     NetManager:SendConnect();
@@ -44,6 +43,14 @@ function GameManager.OnInitOK()
     this.test_cjson_func();
     this.test_pbc_func();
     this.test_lpeg_func();
+
+    --createPanel("Prompt");
+    CtrlManager.Init();
+    local ctrl = CtrlManager.GetCtrl(CtrlName.Prompt);
+    if ctrl ~= nil then
+        ctrl:Awake();
+    end
+    warn('OnInitOK--->>>');
 end
 
 function GameManager.test_lpeg_func()
@@ -82,7 +89,7 @@ end
 
 --测试pbc--
 function GameManager.test_pbc_func()
-    local path = Util.DataPath.."lua/pbc/addressbook.pb";
+    local path = Util.DataPath.."lua/3rd/pbc/addressbook.pb";
     log('io.open--->>>'..path);
 
     local addr = io.open(path, "rb")
@@ -104,7 +111,7 @@ end
 
 --pbc callback--
 function GameManager.OnPbcCall(data)
-    local path = Util.DataPath.."lua/pbc/addressbook.pb";
+    local path = Util.DataPath.."lua/3rd/pbc/addressbook.pb";
 
     local addr = io.open(path, "rb")
     local buffer = addr:read "*a"
@@ -121,7 +128,7 @@ end
 
 --测试cjson--
 function GameManager.test_cjson_func()
-    local path = Util.DataPath.."lua/cjson/example2.json";
+    local path = Util.DataPath.."lua/3rd/cjson/example2.json";
     local text = util.file_load(path);
     LuaHelper.OnJsonCallFunc(text, this.OnJsonCall);
 end

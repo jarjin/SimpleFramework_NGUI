@@ -208,7 +208,7 @@ namespace SimpleFramework.Manager {
                 if (string.IsNullOrEmpty(name)) continue;
                 name += "Panel";    //添加
 
-                LuaManager.DoFile("logic/" + name);
+                LuaManager.DoFile("View/" + name);
                 Debug.LogWarning("LoadLua---->>>>" + name + ".lua");
             }
             //------------------------------------------------------------
