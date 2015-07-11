@@ -9,11 +9,12 @@ using ICSharpCode.SharpZipLib.Zip;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using Junfine.Debuger;
 #endif
 
 namespace SimpleFramework.Manager {
     public class GameManager : LuaBehaviour {
-        private string message;
+        private List<string> downloadFiles = new List<string>();
 
         /// <summary>
         /// 初始化游戏管理器
@@ -65,15 +66,17 @@ namespace SimpleFramework.Manager {
             string dataPath = Util.DataPath;  //数据目录
             string resPath = Util.AppContentPath(); //游戏包资源目录
 
-            if (Directory.Exists(dataPath)) Directory.Delete(dataPath);
+            if (Directory.Exists(dataPath)) Directory.Delete(dataPath, true);
             Directory.CreateDirectory(dataPath);
 
             string infile = resPath + "files.txt";
             string outfile = dataPath + "files.txt";
             if (File.Exists(outfile)) File.Delete(outfile);
 
-            message = "正在解包文件:>files.txt";
+            string message = "正在解包文件:>files.txt";
             Debug.Log(message);
+            facade.SendNotification(NotiConst.UPDATE_MESSAGE, message);
+
             if (Application.platform == RuntimePlatform.Android) {
                 WWW www = new WWW(infile);
                 yield return www;
@@ -93,6 +96,7 @@ namespace SimpleFramework.Manager {
                 outfile = dataPath + fs[0];
                 message = "正在解包文件:>" + fs[0];
                 Debug.Log("正在解包文件:>" + infile);
+                facade.SendNotification(NotiConst.UPDATE_MESSAGE, message);
 
                 string dir = Path.GetDirectoryName(outfile);
                 if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
@@ -105,10 +109,17 @@ namespace SimpleFramework.Manager {
                         File.WriteAllBytes(outfile, www.bytes);
                     }
                     yield return 0;
-                } else File.Copy(infile, outfile, true);
+                } else {
+                    if (File.Exists(outfile)) {
+                        File.Delete(outfile);
+                    }
+                    File.Copy(infile, outfile, true);
+                }
                 yield return new WaitForEndOfFrame();
             }
             message = "解包完成!!!";
+            facade.SendNotification(NotiConst.UPDATE_MESSAGE, message);
+
             yield return new WaitForSeconds(0.1f);
             message = string.Empty;
 
@@ -120,19 +131,20 @@ namespace SimpleFramework.Manager {
         /// 启动更新下载，这里只是个思路演示，此处可启动线程下载更新
         /// </summary>
         IEnumerator OnUpdateResource() {
+            downloadFiles.Clear();
+
             if (!AppConst.UpdateMode) {
                 ResManager.initialize(OnResourceInited);
                 yield break;
             }
-            WWW www = null;
             string dataPath = Util.DataPath;  //数据目录
             string url = string.Empty;
 #if UNITY_5 
-        if (Application.platform == RuntimePlatform.IPhonePlayer) {
-            url = AppConst.WebUrl + "/ios/";
-        } else {
-            url = AppConst.WebUrl + "android/5x/";
-        }
+            if (Application.platform == RuntimePlatform.IPhonePlayer) {
+                url = AppConst.WebUrl + "/ios/";
+            } else {
+                url = AppConst.WebUrl + "android/5x/";
+            }
 #else
             if (Application.platform == RuntimePlatform.IPhonePlayer) {
                 url = AppConst.WebUrl + "/iphone/";
@@ -142,9 +154,9 @@ namespace SimpleFramework.Manager {
 #endif
             string random = DateTime.Now.ToString("yyyymmddhhmmss");
             string listUrl = url + "files.txt?v=" + random;
-            if (Debug.isDebugBuild) Debug.LogWarning("LoadUpdate---->>>" + listUrl);
+            Debuger.LogWarning("LoadUpdate---->>>" + listUrl);
 
-            www = new WWW(listUrl); yield return www;
+            WWW www = new WWW(listUrl); yield return www;
             if (www.error != null) {
                 OnUpdateFailed(string.Empty);
                 yield break;
@@ -153,19 +165,21 @@ namespace SimpleFramework.Manager {
                 Directory.CreateDirectory(dataPath);
             }
             File.WriteAllBytes(dataPath + "files.txt", www.bytes);
+
             string filesText = www.text;
             string[] files = filesText.Split('\n');
 
+            string message = string.Empty;
             for (int i = 0; i < files.Length; i++) {
                 if (string.IsNullOrEmpty(files[i])) continue;
                 string[] keyValue = files[i].Split('|');
-                string f = keyValue[0].Remove(0, 1);
+                string f = keyValue[0];
                 string localfile = (dataPath + f).Trim();
                 string path = Path.GetDirectoryName(localfile);
                 if (!Directory.Exists(path)) {
                     Directory.CreateDirectory(path);
                 }
-                string fileUrl = url + f + "?v=" + random;
+                string fileUrl = url + keyValue[0] + "?v=" + random;
                 bool canUpdate = !File.Exists(localfile);
                 if (!canUpdate) {
                     string remoteMd5 = keyValue[1].Trim();
@@ -176,18 +190,59 @@ namespace SimpleFramework.Manager {
                 if (canUpdate) {   //本地缺少文件
                     Debug.Log(fileUrl);
                     message = "downloading>>" + fileUrl;
+                    facade.SendNotification(NotiConst.UPDATE_MESSAGE, message);
+                    /*
                     www = new WWW(fileUrl); yield return www;
                     if (www.error != null) {
                         OnUpdateFailed(path);   //
                         yield break;
                     }
                     File.WriteAllBytes(localfile, www.bytes);
+                     * */
+                    //这里都是资源文件，用线程下载
+                    BeginDownload(fileUrl, localfile);
+                    while (!(IsDownOK(localfile))) { yield return new WaitForEndOfFrame(); }
                 }
             }
             yield return new WaitForEndOfFrame();
             message = "更新完成!!";
+            facade.SendNotification(NotiConst.UPDATE_MESSAGE, message);
 
             ResManager.initialize(OnResourceInited);
+        }
+
+        /// <summary>
+        /// 是否下载完成
+        /// </summary>
+        bool IsDownOK(string file) {
+            return downloadFiles.Contains(file);
+        }
+
+        /// <summary>
+        /// 线程下载
+        /// </summary>
+        void BeginDownload(string url, string file) {     //线程下载
+            object[] param = new object[2] {url, file};
+
+            ThreadEvent ev = new ThreadEvent();
+            ev.Key = NotiConst.UPDATE_DOWNLOAD;
+            ev.evParams.AddRange(param);
+            ThreadManager.AddEvent(ev, OnThreadCompleted);   //线程下载
+        }
+
+        /// <summary>
+        /// 线程完成
+        /// </summary>
+        /// <param name="data"></param>
+        void OnThreadCompleted(NotiData data) {
+            switch (data.evName) {
+                case NotiConst.UPDATE_EXTRACT:  //解压一个完成
+                    //
+                break;
+                case NotiConst.UPDATE_DOWNLOAD: //下载一个完成
+                    downloadFiles.Add(data.evParam.ToString());
+                break;
+            }
         }
 
         /// <summary>
@@ -216,11 +271,8 @@ namespace SimpleFramework.Manager {
         }
 
         void OnUpdateFailed(string file) {
-            message = "更新失败!>" + file;
-        }
-
-        void OnGUI() {
-            GUI.Label(new Rect(10, 120, 960, 50), message);
+            string message = "更新失败!>" + file;
+            facade.SendNotification(NotiConst.UPDATE_MESSAGE, message);
         }
 
         void Update() {
