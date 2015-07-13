@@ -6,10 +6,10 @@ using LuaInterface;
 using System.Reflection;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
+using Junfine.Debuger;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using Junfine.Debuger;
 #endif
 
 namespace SimpleFramework.Manager {
@@ -154,7 +154,7 @@ namespace SimpleFramework.Manager {
 #endif
             string random = DateTime.Now.ToString("yyyymmddhhmmss");
             string listUrl = url + "files.txt?v=" + random;
-            Debuger.LogWarning("LoadUpdate---->>>" + listUrl);
+            Debug.LogWarning("LoadUpdate---->>>" + listUrl);
 
             WWW www = new WWW(listUrl); yield return www;
             if (www.error != null) {
@@ -250,8 +250,8 @@ namespace SimpleFramework.Manager {
         /// </summary>
         public void OnResourceInited() {
             LuaManager.Start();
-            LuaManager.DoFile("logic/game");       //加载游戏
-            LuaManager.DoFile("logic/network");    //加载网络
+            LuaManager.DoFile("Logic/game");       //加载游戏
+            LuaManager.DoFile("Logic/network");    //加载网络
             initialize = true;                     //初始化完 
 
             NetManager.OnInit();    //初始化网络
