@@ -11,19 +11,21 @@ namespace SimpleFramework.Manager {
         /// 初始化
         /// </summary>
         public void initialize(Action func) {
-            byte[] stream;
-            string uri = string.Empty;
-            //------------------------------------Shared--------------------------------------
-            uri = Util.DataPath + "shared.assetbundle";
-            Debug.LogWarning("LoadFile::>> " + uri);
+            if (AppConst.ExampleMode) {
+                byte[] stream;
+                string uri = string.Empty;
+                //------------------------------------Shared--------------------------------------
+                uri = Util.DataPath + "shared.assetbundle";
+                Debug.LogWarning("LoadFile::>> " + uri);
 
-            stream = File.ReadAllBytes(uri);
-            shared = AssetBundle.CreateFromMemoryImmediate(stream);
+                stream = File.ReadAllBytes(uri);
+                shared = AssetBundle.CreateFromMemoryImmediate(stream);
 #if UNITY_5
         shared.LoadAsset("Dialog", typeof(GameObject));
 #else
-            shared.Load("Dialog", typeof(GameObject));
+                shared.Load("Dialog", typeof(GameObject));
 #endif
+            }
             if (func != null) func();    //资源初始化完成，回调游戏管理器，执行后续操作 
         }
 
