@@ -7,6 +7,7 @@ namespace SimpleFramework {
     public class AppConst {
         public const bool DebugMode = false;                        //调试模式-用于内部测试
         public const bool UpdateMode = false;                       //更新模式-默认关闭 
+        public const bool ExampleMode = true;                       //例子模式 
 
         public const bool UsePbc = true;                           //PBC
         public const bool UseLpeg = true;                          //lpeg

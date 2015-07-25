@@ -196,6 +196,7 @@ public static class LuaBinding
         _GT(typeof(UIRect)),
         _GT(typeof(Debugger)),
         _GT(typeof(TweenAlpha.Style)),
+        _GT(typeof(MusicManager)),
         
         //unity                        
         _GT(typeof(Component)),

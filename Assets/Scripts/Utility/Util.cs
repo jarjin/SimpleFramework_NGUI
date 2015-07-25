@@ -446,7 +446,7 @@ namespace SimpleFramework {
         /// </summary>
         /// <param name="name"></param>
         public static GameObject LoadPrefab(string name) {
-            return Resources.Load("Prefabs/" + name, typeof(GameObject)) as GameObject;
+            return Resources.Load(name, typeof(GameObject)) as GameObject;
         }
 
         /// <summary>

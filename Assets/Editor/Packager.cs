@@ -26,11 +26,11 @@ public class Packager {
     /// </summary>
     static UnityEngine.Object LoadAsset(string file) {
         if (file.EndsWith(".lua")) file += ".txt";
-        return AssetDatabase.LoadMainAssetAtPath("Assets/Builds/" + file);
+        return AssetDatabase.LoadMainAssetAtPath("Assets/Examples/Builds/" + file);
     }
 
     [MenuItem("Game/Build iPhone Resource", false, 11)]
-    public static void BuildiPhoneResource() { 
+    public static void BuildiPhoneResource() {
         BuildTarget target;
 #if UNITY_5
         target = BuildTarget.iOS;
@@ -54,12 +54,20 @@ public class Packager {
     /// 生成绑定素材
     /// </summary>
     public static void BuildAssetResource(BuildTarget target, bool isWin) {
+        if (AppConst.ExampleMode) {
+            HandleExampleBundle(target);
+        }
+        HandleLuaFile(isWin);
+        AssetDatabase.Refresh();
+    }
+
+    static void HandleExampleBundle(BuildTarget target) {
         Object mainAsset = null;        //主素材名，单个
         Object[] addis = null;     //附加素材名，多个
         string assetfile = string.Empty;  //素材文件名
 
-        BuildAssetBundleOptions options = BuildAssetBundleOptions.UncompressedAssetBundle | 
-                                          BuildAssetBundleOptions.CollectDependencies | 
+        BuildAssetBundleOptions options = BuildAssetBundleOptions.UncompressedAssetBundle |
+                                          BuildAssetBundleOptions.CollectDependencies |
                                           BuildAssetBundleOptions.DeterministicAssetBundle;
         string dataPath = Util.DataPath;
         if (Directory.Exists(dataPath)) {
@@ -96,9 +104,6 @@ public class Packager {
 
         ///-------------------------------刷新---------------------------------------
         BuildPipeline.PopAssetDependencies();
-
-        HandleLuaFile(isWin);
-        AssetDatabase.Refresh();
     }
 
     /// <summary>
@@ -222,7 +227,11 @@ public class Packager {
 
     [MenuItem("Game/Build Protobuf-lua-gen File")]
     public static void BuildProtobufFile() {
-        string dir = AppDataPath + "/Lua/bin";
+        if (!AppConst.ExampleMode) {
+            Debugger.LogError("若使用编码Protobuf-lua-gen功能，需要自己配置外部环境！！");
+            return;
+        }
+        string dir = AppDataPath + "/Lua/3rd/pblua";
         paths.Clear(); files.Clear(); Recursive(dir);
 
         string protoc = "d:/protobuf-2.4.1/src/protoc.exe";
