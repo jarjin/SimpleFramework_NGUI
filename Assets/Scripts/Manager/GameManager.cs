@@ -139,20 +139,7 @@ namespace SimpleFramework.Manager {
                 yield break;
             }
             string dataPath = Util.DataPath;  //数据目录
-            string url = string.Empty;
-#if UNITY_5 
-            if (Application.platform == RuntimePlatform.IPhonePlayer) {
-                url = AppConst.WebUrl + "/ios/";
-            } else {
-                url = AppConst.WebUrl + "android/5x/";
-            }
-#else
-            if (Application.platform == RuntimePlatform.IPhonePlayer) {
-                url = AppConst.WebUrl + "/iphone/";
-            } else {
-                url = AppConst.WebUrl + "android/4x/";
-            }
-#endif
+            string url = AppConst.WebUrl;
             string random = DateTime.Now.ToString("yyyymmddhhmmss");
             string listUrl = url + "files.txt?v=" + random;
             Debug.LogWarning("LoadUpdate---->>>" + listUrl);
