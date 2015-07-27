@@ -61,58 +61,58 @@ end
 
 --测试sproto--
 function GameManager.test_sproto_func()
-	warn("test_sproto_func-------->>");
-	local sp = sproto.parse [[
-	.Person {
-		name 0 : string
-		id 1 : integer
-		email 2 : string
+    warn("test_sproto_func-------->>");
+    local sp = sproto.parse [[
+    .Person {
+        name 0 : string
+        id 1 : integer
+        email 2 : string
 
-		.PhoneNumber {
-			number 0 : string
-			type 1 : integer
-		}
+        .PhoneNumber {
+            number 0 : string
+            type 1 : integer
+        }
 
-		phone 3 : *PhoneNumber
-	}
+        phone 3 : *PhoneNumber
+    }
 
-	.AddressBook {
-		person 0 : *Person(id)
-		others 1 : *Person
-	}
-	]]
+    .AddressBook {
+        person 0 : *Person(id)
+        others 1 : *Person
+    }
+    ]]
 
-	local ab = {
-		person = {
-			[10000] = {
-				name = "Alice",
-				id = 10000,
-				phone = {
-					{ number = "123456789" , type = 1 },
-					{ number = "87654321" , type = 2 },
-				}
-			},
-			[20000] = {
-				name = "Bob",
-				id = 20000,
-				phone = {
-					{ number = "01234567890" , type = 3 },
-				}
-			}
-		},
-		others = {
-			{
-				name = "Carol",
-				id = 30000,
-				phone = {
-					{ number = "9876543210" },
-				}
-			},
-		}
-	}
-	local code = sp:encode("AddressBook", ab)
-	local addr = sp:decode("AddressBook", code)
-	print_r(addr)
+    local ab = {
+        person = {
+            [10000] = {
+                name = "Alice",
+                id = 10000,
+                phone = {
+                    { number = "123456789" , type = 1 },
+                    { number = "87654321" , type = 2 },
+                }
+            },
+            [20000] = {
+                name = "Bob",
+                id = 20000,
+                phone = {
+                    { number = "01234567890" , type = 3 },
+                }
+            }
+        },
+        others = {
+            {
+                name = "Carol",
+                id = 30000,
+                phone = {
+                    { number = "9876543210" },
+                }
+            },
+        }
+    }
+    local code = sp:encode("AddressBook", ab)
+    local addr = sp:decode("AddressBook", code)
+    print_r(addr)
 end
 
 --测试lpeg--

@@ -125,4 +125,5 @@ E:\workspace\SimpleFramework_NGUI\Server\Server\bin\Debug\SimpleFramework.dll
 E:\workspace\SimpleFramework_NGUI\Server\Server\bin\Debug\SimpleFramework.pdb
 E:\workspace\SimpleFramework_NGUI\Server\Server\obj\Debug\SimpleFramework.dll
 E:\workspace\SimpleFramework_NGUI\Server\Server\obj\Debug\SimpleFramework.pdb
+E:\workspace\SimpleFramework_NGUI\Server\Server\bin\Debug\protobuf-net.dll
 E:\workspace\SimpleFramework_NGUI\Server\Server\obj\Debug\GameServer.csprojResolveAssemblyReference.cache
