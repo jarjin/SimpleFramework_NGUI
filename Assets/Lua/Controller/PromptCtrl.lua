@@ -50,6 +50,7 @@ function PromptCtrl.InitPanel()
 		go.transform.parent = parent;
 		go.transform.localScale = Vector3.one;
 		go.transform.localPosition = Vector3.zero;
+		prompt:AddClick(go, this.OnItemClick);
 
 		local goo = go.transform:FindChild('Label');
 		goo:GetComponent('UILabel').text = i;
@@ -58,6 +59,11 @@ function PromptCtrl.InitPanel()
 	grid:Reposition();
 	grid.repositionNow = true;
 	parent:GetComponent('WrapGrid'):InitGrid();
+end
+
+--滚动项单击事件--
+function PromptCtrl.OnItemClick(go)
+	log(go.name);
 end
 
 --单击事件--
