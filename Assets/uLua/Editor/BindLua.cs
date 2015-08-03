@@ -21,7 +21,7 @@ public static class LuaBinding
     //自动生成wrap功能
     //static LuaBinding()
     //{        
-    //    string dir = Application.dataPath + "/Source/LuaWrap/";
+    //    string dir = AppConst.LuaWrapPath;
 
     //    if (!Directory.Exists(dir))
     //    {
@@ -347,7 +347,7 @@ public static class LuaBinding
         sb.AppendLine("\t\tif (type == null || cachedlist.Contains(type)) return;");
         sb.AppendLine("\t\tcachedlist.Add(type); type += \"Wrap\";");
         sb.AppendLine("\t\tswitch (type) {");
-        string[] files = Directory.GetFiles("Assets/Source/LuaWrap/", "*.cs", SearchOption.TopDirectoryOnly);
+        string[] files = Directory.GetFiles("Assets/uLua/Source/LuaWrap/", "*.cs", SearchOption.TopDirectoryOnly);
 
         for (int i = 0; i < files.Length; i++)
         {
@@ -360,7 +360,7 @@ public static class LuaBinding
         sb.AppendLine("\t}");
         sb.AppendLine("}");
 
-        string file = Application.dataPath + "/Source/Base/LuaBinder.cs";
+        string file = AppConst.LuaBasePath + "Base/LuaBinder.cs";
 
         using (StreamWriter textWriter = new StreamWriter(file, false, Encoding.UTF8))
         {
@@ -383,7 +383,7 @@ public static class LuaBinding
         sb.AppendLine("\t}");
         sb.AppendLine("}");
 
-        string file = Application.dataPath + "/Source/Base/LuaBinder.cs";
+        string file = AppConst.LuaBasePath + "Base/LuaBinder.cs";
 
         using (StreamWriter textWriter = new StreamWriter(file, false, Encoding.UTF8))
         {
@@ -391,7 +391,7 @@ public static class LuaBinding
             textWriter.Flush();
             textWriter.Close();
         }
-        ClearFiles(Application.dataPath + "/Source/LuaWrap/");
+        ClearFiles(AppConst.LuaWrapPath);
         AssetDatabase.Refresh();
     }
 
