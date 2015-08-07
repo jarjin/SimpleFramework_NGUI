@@ -8,6 +8,10 @@
 
 视频教程地址 http://pan.baidu.com/s/1gd8fG4N
 游戏案例地址 http://www.ulua.org/showcase.html
+框架详细介绍 http://bbs.ulua.org/dispbbs.asp?boardid=3&Id=24
+
+//-------------2015-08-08-------------
+(1)修复几个小bug。
 
 //-------------2015-08-05-------------
 (1)同步cstolua修复委托bug，修复框架LuaClass大小写引用bug。
