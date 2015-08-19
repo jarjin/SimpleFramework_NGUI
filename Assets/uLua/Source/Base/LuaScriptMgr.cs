@@ -570,7 +570,6 @@ public class LuaScriptMgr
         return null;
     }
 
-
     //不缓存LuaFunction
     public object[] CallLuaFunction(string name, params object[] args)
     {
