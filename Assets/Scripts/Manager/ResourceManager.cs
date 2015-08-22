@@ -4,7 +4,7 @@ using System.IO;
 using System;
 
 namespace SimpleFramework.Manager {
-    public class ResourceManager : BehaviourBase {
+    public class ResourceManager : View {
         private AssetBundle shared;
 
         /// <summary>

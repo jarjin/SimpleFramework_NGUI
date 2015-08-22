@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 
 namespace SimpleFramework {
-    public class LuaBehaviour : BehaviourBase {
+    public class LuaBehaviour : View {
         protected static bool initialize = false;
 
         private string data = null;

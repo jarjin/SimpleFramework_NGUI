@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace SimpleFramework.Manager {
-    public class MusicManager : BehaviourBase {
+    public class MusicManager : View {
         private AudioSource audio;
         private Hashtable sounds = new Hashtable();
 

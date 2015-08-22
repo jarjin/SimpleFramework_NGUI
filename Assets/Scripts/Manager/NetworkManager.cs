@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using LuaInterface;
 
 namespace SimpleFramework.Manager {
-    public class NetworkManager : BehaviourBase {
-        private SocketProxy socket;
+    public class NetworkManager : View {
+        private SocketClient socket;
         static Queue<KeyValuePair<int, ByteBuffer>> sEvents = new Queue<KeyValuePair<int, ByteBuffer>>();
 
-        SocketProxy SocketClient {
-            get { 
+        SocketClient SocketClient {
+            get {
                 if (socket == null)
-                    socket = facade.RetrieveProxy(SocketProxy.NAME) as SocketProxy;
+                    socket = new SocketClient();
                 return socket;                    
             }
         }
@@ -22,6 +22,7 @@ namespace SimpleFramework.Manager {
         }
 
         void Init() {
+            SocketClient.OnRegister();
         }
 
         public void OnInit() {
@@ -51,7 +52,7 @@ namespace SimpleFramework.Manager {
             if (sEvents.Count > 0) {
                 while (sEvents.Count > 0) {
                     KeyValuePair<int, ByteBuffer> _event = sEvents.Dequeue();
-                    facade.SendNotification(NotiConst.DISPATCH_MESSAGE, _event);
+                    facade.SendMessageCommand(NotiConst.DISPATCH_MESSAGE, _event);
                 }
             }
         }
@@ -74,6 +75,7 @@ namespace SimpleFramework.Manager {
         /// Îö¹¹º¯Êý
         /// </summary>
         new void OnDestroy() {
+            SocketClient.OnRemove();
             Debug.Log("~NetworkManager was destroy");
         }
     }
