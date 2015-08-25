@@ -2109,6 +2109,10 @@ public class LuaScriptMgr
                 return (string[])ret;
             }
         }
+        else if (luatype == LuaTypes.LUA_TNIL)
+        {
+            return null;
+        }
 
         LuaDLL.luaL_error(L, string.Format("invalid arguments to method: {0}, pos {1}", GetErrorFunc(1), stackPos));           
         return null;
@@ -2155,6 +2159,10 @@ public class LuaScriptMgr
                 return (T[])ret;
             }            
         }
+        else if (luatype == LuaTypes.LUA_TNIL)
+        {
+            return null;
+        }
 
         LuaDLL.luaL_error(L, string.Format("invalid arguments to method: {0}, pos {1}", GetErrorFunc(1), stackPos));   
         return null;
@@ -2199,6 +2207,10 @@ public class LuaScriptMgr
             {
                 return (bool[])ret;
             }
+        }
+        else if (luatype == LuaTypes.LUA_TNIL)
+        {
+            return null;
         }
 
         LuaDLL.luaL_error(L, string.Format("invalid arguments to method: {0}, pos {1}", GetErrorFunc(1), stackPos));
