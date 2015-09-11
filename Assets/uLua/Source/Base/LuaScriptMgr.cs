@@ -206,10 +206,9 @@ public class LuaScriptMgr
             LuaDLL.luaopen_sproto_core(lua.L);
         }
         LuaDLL.tolua_openlibs(lua.L);
-
-        //if (Const.UseSQLite) {
-            //LuaDLL.luaopen_lsqlite3(lua.L);
-        //}
+        //OpenXml();        
+        //LuaDLL.luaopen_socket_core(lua.L);        
+                
         fileList = new HashSet<string>();
         dict = new Dictionary<string,LuaBase>();        
         //dictBundle = new Dictionary<string, IAssetFile>();
@@ -569,6 +568,7 @@ public class LuaScriptMgr
 
         return null;
     }
+
 
     //不缓存LuaFunction
     public object[] CallLuaFunction(string name, params object[] args)
@@ -1984,6 +1984,7 @@ public class LuaScriptMgr
         {
             sf = st.GetFrame(pos++);
             file = sf.GetFileName();
+            file = Path.GetFileName(file);
         } while (!file.Contains("Wrap"));
 
         int index1 = file.LastIndexOf('\\');
