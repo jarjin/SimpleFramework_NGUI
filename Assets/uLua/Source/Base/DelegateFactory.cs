@@ -30,6 +30,7 @@ public static class DelegateFactory
 		dict.Add(typeof(UIWidget.HitCheck), new DelegateValue(UIWidget_HitCheck));
 		dict.Add(typeof(UIGrid.OnReposition), new DelegateValue(UIGrid_OnReposition));
 		dict.Add(typeof(Comparison<Transform>), new DelegateValue(Comparison_Transform));
+		dict.Add(typeof(TestLuaDelegate.VoidDelegate), new DelegateValue(TestLuaDelegate_VoidDelegate));
 		dict.Add(typeof(AudioClip.PCMReaderCallback), new DelegateValue(AudioClip_PCMReaderCallback));
 		dict.Add(typeof(AudioClip.PCMSetPositionCallback), new DelegateValue(AudioClip_PCMSetPositionCallback));
 		dict.Add(typeof(Application.LogCallback), new DelegateValue(Application_LogCallback));
@@ -291,6 +292,19 @@ public static class DelegateFactory
 			object[] objs = func.PopValues(top);
 			func.EndPCall(top);
 			return (int)objs[0];
+		};
+		return d;
+	}
+
+	public static Delegate TestLuaDelegate_VoidDelegate(LuaFunction func)
+	{
+		TestLuaDelegate.VoidDelegate d = (param0) =>
+		{
+			int top = func.BeginPCall();
+			IntPtr L = func.GetLuaState();
+			LuaScriptMgr.Push(L, param0);
+			func.PCall(top, 1);
+			func.EndPCall(top);
 		};
 		return d;
 	}
