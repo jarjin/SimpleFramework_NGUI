@@ -180,7 +180,7 @@ public static class LuaBinding
         ////_GT(typeof(Dictionary<int,string>)).SetWrapName("DictInt2Str").SetLibName("DictInt2Str"),
         
         //custom    
-		
+		_GT(typeof(WWW)),
 		_GT(typeof(Util)),
 		_GT(typeof(AppConst)),
 		_GT(typeof(ByteBuffer)),
