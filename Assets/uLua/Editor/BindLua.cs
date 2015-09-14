@@ -206,6 +206,8 @@ public static class LuaBinding
         _GT(typeof(TestLuaDelegate)),
         _GT(typeof(TestDelegateListener)),
         _GT(typeof(TestEventListener)),
+        _GT(typeof(EventDelegate)),
+        _GT(typeof(UIButton)),
         
         //unity                        
         _GT(typeof(Component)),
