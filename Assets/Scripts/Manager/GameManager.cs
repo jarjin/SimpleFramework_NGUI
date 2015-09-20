@@ -237,6 +237,9 @@ namespace SimpleFramework.Manager {
         /// 资源初始化结束
         /// </summary>
         public void OnResourceInited() {
+            Util.AddLuaPath("E:/workspace/SimpleFramework_NGUI/Assets/Lua");
+            Util.AddLuaPath("D:/ZeroBraneStudioEduPack-1.10-win32/lualibs");
+
             LuaManager.Start();
             LuaManager.DoFile("Logic/Network");       //加载网络
             LuaManager.DoFile("Logic/GameManager");    //加载游戏
