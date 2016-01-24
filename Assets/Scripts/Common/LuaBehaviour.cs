@@ -10,18 +10,13 @@ namespace SimpleFramework {
 
         private string data = null;
         private AssetBundle bundle = null;
-        private List<LuaFunction> buttons = new List<LuaFunction>();
+        private Dictionary<string, LuaFunction> buttons = new Dictionary<string, LuaFunction>();
 
         protected void Awake() {
             CallMethod("Awake", gameObject);
         }
 
         protected void Start() {
-            if (LuaManager != null && initialize) {
-                LuaState l = LuaManager.lua;
-                l[name + ".transform"] = transform;
-                l[name + ".gameObject"] = gameObject;
-            }
             CallMethod("Start");
         }
 
@@ -46,7 +41,7 @@ namespace SimpleFramework {
         /// 获取一个GameObject资源
         /// </summary>
         /// <param name="name"></param>
-        public GameObject GetGameObject(string name) {
+        public GameObject LoadAsset(string name) {
             if (bundle == null) return null;
             return Util.LoadAsset(bundle, name);
         }
@@ -55,23 +50,37 @@ namespace SimpleFramework {
         /// 添加单击事件
         /// </summary>
         public void AddClick(GameObject go, LuaFunction luafunc) {
-            if (go == null) return;
+            if (go == null || luafunc == null) return;
+            buttons.Add(go.name, luafunc);
             UIEventListener.Get(go).onClick = delegate(GameObject o) {
                 luafunc.Call(go);
-                buttons.Add(luafunc);
             };
+        }
+
+        /// <summary>
+        /// 删除单击事件
+        /// </summary>
+        /// <param name="go"></param>
+        public void RemoveClick(GameObject go) {
+            if (go == null) return;
+            LuaFunction luafunc = null;
+            if (buttons.TryGetValue(go.name, out luafunc)) {
+                buttons.Remove(go.name);
+                luafunc.Dispose();
+                luafunc = null;
+            }
         }
 
         /// <summary>
         /// 清除单击事件
         /// </summary>
         public void ClearClick() {
-            for (int i = 0; i < buttons.Count; i++ ) {
-                if (buttons[i] != null) {
-                    buttons[i].Dispose();
-                    buttons[i] = null;
+            foreach (var de in buttons) {
+                if (de.Value != null) {
+                    de.Value.Dispose();
                 }
             }
+            buttons.Clear();
         }
         
         /// <summary>
@@ -89,7 +98,6 @@ namespace SimpleFramework {
                 bundle = null;  //销毁素材
             }
             ClearClick();
-            LuaManager = null;
             Util.ClearMemory();
             Debug.Log("~" + name + " was destroy!");
         }
