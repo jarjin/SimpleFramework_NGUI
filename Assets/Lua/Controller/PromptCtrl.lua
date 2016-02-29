@@ -43,7 +43,7 @@ end
 function PromptCtrl.InitPanel()
 	panel.depth = 1;	--设置纵深--
 	local parent = PromptPanel.gridParent;
-	local itemPrefab = prompt:GetGameObject('PromptItem');
+	local itemPrefab = prompt:LoadAsset('PromptItem');
 	for i = 1, 100 do
 		local go = newObject(itemPrefab);
 		go.name = tostring(i);
